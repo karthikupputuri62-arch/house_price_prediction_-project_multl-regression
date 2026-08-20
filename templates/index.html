@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>House Price Prediction</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f4f7;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            margin-top: 25px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .form-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .input-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #555;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 13px 40px;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            cursor: pointer;
+            background: #222;
+            color: white;
+        }
+
+        button:hover {
+            background: #444;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            text-align: center;
+            background: #e8f5e9;
+            border-radius: 10px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .error {
+            margin-top: 20px;
+            padding: 15px;
+            background: #ffebee;
+            color: red;
+            text-align: center;
+            border-radius: 8px;
+        }
+
+        @media(max-width: 800px) {
+
+            .form-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        @media(max-width: 500px) {
+
+            .form-container {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+    <h1>🏠 House Price Prediction</h1>
+
+
+    <form action="/predict" method="POST">
+
+
+        <!-- ================================= -->
+        <!-- HOUSE INFORMATION -->
+        <!-- ================================= -->
+
+        <h2 class="section-title">
+            🏠 House Information
+        </h2>
+
+
+        <div class="form-container">
+
+
+            <!-- BEDROOMS -->
+            <div class="input-box">
+
+                <label for="bedrooms">
+                    Bedrooms
+                </label>
+
+                <input
+                    type="number"
+                    id="bedrooms"
+                    name="bedrooms"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- BATHROOMS -->
+            <div class="input-box">
+
+                <label for="bathrooms">
+                    Bathrooms
+                </label>
+
+                <input
+                    type="number"
+                    id="bathrooms"
+                    name="bathrooms"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- SQFT LIVING -->
+            <div class="input-box">
+
+                <label for="sqft_living">
+                    Sqft Living
+                </label>
+
+                <input
+                    type="number"
+                    id="sqft_living"
+                    name="sqft_living"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- SQFT LOT -->
+            <div class="input-box">
+
+                <label for="sqft_lot">
+                    Sqft Lot
+                </label>
+
+                <input
+                    type="number"
+                    id="sqft_lot"
+                    name="sqft_lot"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- FLOORS -->
+            <div class="input-box">
+
+                <label for="floors">
+                    Floors
+                </label>
+
+                <input
+                    type="number"
+                    id="floors"
+                    name="floors"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- WATERFRONT -->
+            <div class="input-box">
+
+                <label for="waterfront">
+                    Waterfront
+                </label>
+
+                <select
+                    id="waterfront"
+                    name="waterfront"
+                    required>
+
+                    <option value="0">
+                        No
+                    </option>
+
+                    <option value="1">
+                        Yes
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- VIEW -->
+            <div class="input-box">
+
+                <label for="view">
+                    View
+                </label>
+
+                <input
+                    type="number"
+                    id="view"
+                    name="view"
+                    min="0"
+                    step="1"
+                    required>
+
+            </div>
+
+
+            <!-- CONDITION -->
+            <div class="input-box">
+
+                <label for="condition">
+                    Condition
+                </label>
+
+                <input
+                    type="number"
+                    id="condition"
+                    name="condition"
+                    min="1"
+                    max="5"
+                    step="1"
+                    required>
+
+            </div>
+
+
+            <!-- SQFT ABOVE -->
+            <div class="input-box">
+
+                <label for="sqft_above">
+                    Sqft Above
+                </label>
+
+                <input
+                    type="number"
+                    id="sqft_above"
+                    name="sqft_above"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- SQFT BASEMENT -->
+            <div class="input-box">
+
+                <label for="sqft_basement">
+                    Sqft Basement
+                </label>
+
+                <input
+                    type="number"
+                    id="sqft_basement"
+                    name="sqft_basement"
+                    step="any"
+                    required>
+
+            </div>
+
+
+            <!-- YEAR BUILT -->
+            <div class="input-box">
+
+                <label for="yr_built">
+                    Year Built
+                </label>
+
+                <input
+                    type="number"
+                    id="yr_built"
+                    name="yr_built"
+                    required>
+
+            </div>
+
+
+            <!-- YEAR RENOVATED -->
+            <div class="input-box">
+
+                <label for="yr_renovated">
+                    Year Renovated
+                </label>
+
+                <input
+                    type="number"
+                    id="yr_renovated"
+                    name="yr_renovated"
+                    value="0"
+                    required>
+
+            </div>
+
+
+            <!-- CITY -->
+            <div class="input-box">
+
+                <label for="city">
+                    City Code
+                </label>
+
+                <input
+                    type="number"
+                    id="city"
+                    name="city"
+                    step="1"
+                    required>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- DATE INFORMATION -->
+        <!-- ================================= -->
+
+        <h2 class="section-title">
+            📅 Date Information
+        </h2>
+
+
+        <div class="form-container">
+
+
+            <!-- DAY -->
+            <div class="input-box">
+
+                <label for="day">
+                    Day
+                </label>
+
+                <input
+                    type="number"
+                    id="day"
+                    name="day"
+                    min="1"
+                    max="31"
+                    required>
+
+            </div>
+
+
+            <!-- MONTH -->
+            <div class="input-box">
+
+                <label for="month">
+                    Month
+                </label>
+
+                <input
+                    type="number"
+                    id="month"
+                    name="month"
+                    min="1"
+                    max="12"
+                    required>
+
+            </div>
+
+
+            <!-- YEAR -->
+            <div class="input-box">
+
+                <label for="year">
+                    Year
+                </label>
+
+                <input
+                    type="number"
+                    id="year"
+                    name="year"
+                    required>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- ================================= -->
+        <!-- PREDICT BUTTON -->
+        <!-- ================================= -->
+
+        <div class="button-container">
+
+            <button type="submit">
+                🔮 Predict House Price
+            </button>
+
+        </div>
+
+
+    </form>
+
+
+    <!-- ================================= -->
+    <!-- RESULT -->
+    <!-- ================================= -->
+
+    {% if prediction is defined %}
+
+        <div class="result">
+
+            🏠 Predicted House Price:
+            ₹ {{ prediction }}
+
+        </div>
+
+    {% endif %}
+
+
+    {% if error %}
+
+        <div class="error">
+
+            Error: {{ error }}
+
+        </div>
+
+    {% endif %}
+
+
+</div>
+
+</body>
+
+</html>
